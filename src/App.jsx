@@ -44,9 +44,11 @@ function App() {
   }
   return (
     <>
-      <AppLayout>
-        <RouterProvider router={router} />
-      </AppLayout>
+      <RouterProvider router={router} >
+        <AppLayout>
+
+        </AppLayout>
+      </RouterProvider>
     </>
   )
 
