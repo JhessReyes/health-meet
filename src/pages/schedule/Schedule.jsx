@@ -2,7 +2,7 @@ import { Button, Input } from 'antd'
 import React from 'react'
 import { FormSchedule, TableSchedule } from './_components'
 
-function index() {
+function Schedule() {
     return (
         <>
             <h1 className="text-3xl font-bold underline">
@@ -16,4 +16,4 @@ function index() {
     )
 }
 
-export default index
+export default Schedule
