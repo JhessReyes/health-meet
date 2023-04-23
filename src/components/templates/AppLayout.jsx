@@ -9,7 +9,7 @@ export default function AppLayout({ children }) {
                 <header className='sticky top-0 z-50'>
                     <Navigation></Navigation>
                 </header>
-                <main className='overflow-auto'>
+                <main className='overflow-auto h-full '>
                     <Outlet />
                 </main>
             </div>
