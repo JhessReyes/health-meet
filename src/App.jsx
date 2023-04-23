@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import './App.css'
 import { db } from './database/firebase'
 import { addDoc, collection, } from "firebase/firestore";
 import { Button, Input } from 'antd';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import AppLayout from './components/templates/AppLayout';
 
 const pages = import.meta.glob("./pages/**/*.jsx", { eager: true });
 const routes = [];
@@ -33,9 +33,6 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  const [count, setCount] = useState(0)
-
-
   // Add a new document in collection "cities"
   const test = async (params) => {
     await addDoc(collection(db, "cities",), {
@@ -45,7 +42,14 @@ function App() {
     });
     console.log('Successfully');
   }
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <AppLayout>
+        <RouterProvider router={router} />
+      </AppLayout>
+    </>
+  )
+
 }
 
 export default App
