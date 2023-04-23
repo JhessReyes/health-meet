@@ -34,3 +34,15 @@ let schedules = {
         interval: '30'
     },
 }
+
+
+export class schedule {
+    // @ts-ignore
+    constructor({ name = "", days = {}, start = "", end = "", interval = "" } = {}) {
+        this.name = name
+        this.days = days
+        this.start = start
+        this.end = end
+        this.interval = interval
+    }
+}
