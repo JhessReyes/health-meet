@@ -1,21 +1,23 @@
 import React from 'react'
-import { AppstoreOutlined, HomeOutlined, MailOutlined, ScheduleOutlined, SettingOutlined } from '@ant-design/icons';
+import { HomeOutlined, ScheduleOutlined, SettingOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
+
 const items = [
     {
         label: (
-            <a href="/">
+            <NavLink to="/">
                 Inicio
-            </a>
+            </NavLink>
         ),
         icon: <HomeOutlined />,
     },
     {
         label: (
-            <a href="/schedule">
+            <NavLink to="/schedule">
                 Horarios
-            </a>
+            </NavLink>
         ),
         icon: <ScheduleOutlined />,
     },
