@@ -1,15 +1,29 @@
-import { Button, Modal } from "antd";
+import { Button, Form, Modal } from "antd";
 import { useState } from "react";
 import { Input } from "antd";
-import { Icon } from "../../components/atoms";
 import { ScheduleOutlined } from "@ant-design/icons";
+
+const layout = {
+  labelCol: {
+    span: 8,
+  },
+  wrapperCol: {
+    span: 16,
+  },
+};
+const tailLayout = {
+  wrapperCol: {
+    offset: 8,
+    span: 16,
+  },
+};
 
 const SchedulModal = () => {
   const [visible, setVisible] = useState(false);
-  const [task, setTask] = useState({
-    title: "",
-    description: "",
-    remindAt: "",
+  const [schedule, setSchedule] = useState({
+    name: "",
+    start: "",
+    end: "",
   });
   const showModal = () => {
     setVisible(true);
@@ -19,21 +33,41 @@ const SchedulModal = () => {
     setVisible(false);
   };
 
-  const handlChange = (name, value) => {
-    setTask({
-      ...task,
-      [name]: value,
-    });
+  const [form] = Form.useForm();
+
+  const initialStatesValues = {
+    Link: "",
+    Website: "",
+    Description: "",
+  };
+
+  const [values, setValues] = useState(initialStatesValues);
+
+  const handleSubmit = (e) => {
+    /* e.preventDefault(); */
+    console.log(e.target.value);
+    /* const { name, value } = e.target;
+    setValues({ ...values, [name]: value }); */
+  };
+
+  const onFinish = (values) => {
+    console.log(values);
+    /* props.addOrEdit(values); */
   };
   return (
     <>
-      <Button type="primary" className="flex items-center" onClick={showModal} icon={<ScheduleOutlined />}>
+      <Button
+        type="primary"
+        className="flex items-center"
+        onClick={showModal}
+        icon={<ScheduleOutlined />}
+      >
         Agregar Horario
       </Button>
       <Modal
         open={visible}
         closable={false}
-        title="Crear Horario"
+        name="Crear Horario"
         footer={[
           <Button key="back" onClick={handleCancel}>
             Cancelar
@@ -43,26 +77,32 @@ const SchedulModal = () => {
           </Button>,
         ]}
       >
-        <Input
-          id={"title"}
-          onChange={(e) => handlChange(e.target.id, e.target.value)}
-          className="!rounded-lg !m-1"
-        />
-        <Input
-          placeholder={task.description}
-          id={"description"}
-          onChange={(e) => handlChange(e.target.id, e.target.value)}
-          className="!rounded-lg !m-1"
-        />
-        <Input
-          type="date"
-          id={"remindAt"}
-          value={task.remindAt ? task.remindAt.split("T")[0] : ""}
-          onChange={(e) =>
-            handlChange(e.target.id, e.target.value.split("T")[0])
-          }
-          className="!rounded-lg !m-1 !flex"
-        />
+        <Form {...layout} form={form} name="control-hooks" onFinish={onFinish}>
+          <Form.Item
+            name={"name"}
+            label={"Nombre del Horario"}
+            rules={[{ required: true }]}
+            onChange={handleSubmit}
+          >
+            <Input name={"name"} />
+          </Form.Item>
+          <Form.Item
+            name={"start"}
+            label={"Hora de Inicio"}
+            rules={[{ required: true }]}
+            onChange={handleSubmit}
+          >
+            <Input name={"start"} type="time" />
+          </Form.Item>
+          <Form.Item
+            name={"end"}
+            label={"Hora Fin"}
+            rules={[{ required: true }]}
+            onChange={handleSubmit}
+          >
+            <Input name={"end"} type="time" />
+          </Form.Item>
+        </Form>
       </Modal>
     </>
   );
