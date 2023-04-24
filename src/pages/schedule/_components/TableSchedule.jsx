@@ -43,7 +43,6 @@ function TableSchedule({ schedule }) {
       key: "interval",
     },
   ];
-
   return <Table columns={columns} dataSource={schedule || []} />;
 }
 
