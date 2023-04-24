@@ -1,4 +1,5 @@
 import React from 'react'
+import { Outlet } from 'react-router'
 import Navigation from '../organism/Navigation'
 
 export default function AppLayout({ children }) {
@@ -8,7 +9,9 @@ export default function AppLayout({ children }) {
                 <header className='sticky top-0 z-50'>
                     <Navigation></Navigation>
                 </header>
-                <main className='overflow-auto'>{children}</main>
+                <main className='overflow-auto h-full '>
+                    <Outlet />
+                </main>
             </div>
         </>
     )
