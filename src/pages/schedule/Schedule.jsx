@@ -5,7 +5,7 @@ import { FormSchedule, TableSchedule } from "./_components";
 import { faker } from '@faker-js/faker';
 
 
-function Schedule() {
+function Schedule() { 
 
     let data = []
     for (let i = 0; i < 20; i++) {
