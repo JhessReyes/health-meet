@@ -1,12 +1,10 @@
-import { Button, Input } from "antd";
 import React from "react";
-import { Module, SchedulModal } from "../../components/organism";
-import { FormSchedule, TableSchedule } from "./_components";
+import { Module } from "../../components/organism";
+import { FormSchedule, ScheduleModal, TableSchedule } from "./_components";
 import { faker } from '@faker-js/faker';
 
 
 function Schedule() {
-
     let schedules = []
     for (let i = 0; i < 20; i++) {
         schedules = [...schedules, {
@@ -39,42 +37,11 @@ function Schedule() {
         }]
 
     }
-    /*
-    () => {
-                let tag = []
-                for (let j = 0; j < 5; j++) {
-                    tag = [...tag, faker.company()]
-                }
-                return tag;
-            }
-    const data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                tags: ['nice', 'developer'],
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                tags: ['loser'],
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sydney No. 1 Lake Park',
-                tags: ['cool', 'teacher'],
-            },
-        ]; */
     return (
         <>
             <Module title="Horarios">
                 <div className="flex justify-end p-2">
-                    <SchedulModal />
+                    <ScheduleModal />
                 </div>
                 <TableSchedule data={data}></TableSchedule>
             </Module>
