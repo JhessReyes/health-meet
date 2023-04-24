@@ -1,8 +1,9 @@
 import React from 'react'
+import { Module } from '../components/organism'
 
 function Home() {
   return (
-    <div>Login</div>
+    <Module title="Dashboard"></Module>
   )
 }
 
