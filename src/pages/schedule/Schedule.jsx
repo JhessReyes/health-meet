@@ -26,6 +26,7 @@ function Schedule() {
             interval: faker.phone.number('##:##')
         }]
     }
+    
     return (
         <>
             <Module title="Horarios">
