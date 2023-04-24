@@ -36,7 +36,7 @@ let schedules = {
 }
 
 
-export class schedule {
+export class Schedule {
     // @ts-ignore
     constructor({ name = "", days = {}, start = "", end = "", interval = "" } = {}) {
         this.name = name

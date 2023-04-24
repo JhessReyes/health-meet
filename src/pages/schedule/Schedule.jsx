@@ -1,4 +1,3 @@
-import { Button, Input } from "antd";
 import React from "react";
 import { Module, SchedulModal } from "../../components/organism";
 import { FormSchedule, TableSchedule } from "./_components";
