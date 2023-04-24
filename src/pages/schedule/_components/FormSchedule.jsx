@@ -23,12 +23,10 @@ function FormSchedule(props) {
         schedule.start = values.start;
         schedule.end = values.end;
         schedule.interval = values.interval;
-        /* console.log(schedule); */
         props?.addOrEdit(schedule);
     };
 
     const onChangeChecked = (e, day) => {
-        console.log(`checked = ${e.target.checked}`);
         days[day] = e?.target?.checked;
     }
 

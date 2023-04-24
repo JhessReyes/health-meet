@@ -1,13 +1,14 @@
 import React from "react";
 import { Module } from "../../components/organism";
-import { FormSchedule, ScheduleModal, TableSchedule } from "./_components";
+import { ScheduleModal, TableSchedule } from "./_components";
 import { faker } from '@faker-js/faker';
 
 
 function Schedule() {
-    let schedules = []
+
+    let schedule = []
     for (let i = 0; i < 20; i++) {
-        schedules = [...schedules, {
+        schedule = [...schedule, {
             key: faker.datatype.uuid(),
             name: faker.name.jobArea(),
             days: {
@@ -24,26 +25,13 @@ function Schedule() {
             interval: faker.phone.number('##:##')
         }]
     }
-
-    let data = []
-
-    for (let i = 0; i < 50; i++) {
-        data = [...data, {
-            key: faker.datatype.uuid(),
-            name: faker.name.jobArea(),
-            age: faker.random.numeric(),
-            address: faker.address.cityName(),
-            tags: [faker.address.cityName()]
-        }]
-
-    }
     return (
         <>
             <Module title="Horarios">
                 <div className="flex justify-end p-2">
                     <ScheduleModal />
                 </div>
-                <TableSchedule data={data}></TableSchedule>
+                <TableSchedule schedule={schedule} />
             </Module>
         </>
     );

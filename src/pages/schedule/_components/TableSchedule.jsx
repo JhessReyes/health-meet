@@ -1,58 +1,49 @@
-import React from 'react'
-import { Space, Table, Tag } from 'antd';
-function TableSchedule({ data }) {
-    const columns = [
-        {
-            title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: (text) => <a>{text}</a>,
-        },
-        {
-            title: 'Age',
-            dataIndex: 'age',
-            key: 'age',
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
-        },
-        {
-            title: 'Tags',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tags }) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
-        },
-        {
-            title: 'Action',
-            key: 'action',
-            render: (_, record) => (
-                <Space size="middle">
-                    <a>Invite {record.name}</a>
-                    <a>Delete</a>
-                </Space>
-            ),
-        },
-    ];
+import React from "react";
+import { Table, Tag } from "antd";
+function TableSchedule({ schedule }) {
+  const columns = [
+    {
+      title: "Nombre",
+      dataIndex: "name",
+      key: "name",
+      render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Días",
+      key: "days",
+      dataIndex: "days",
+      render: (days) => {
+        return (
+          <div>
+            {Object.entries(days).map(function ([key, value]) {
+              let color = days.length > 5 ? 'geekblue' : 'green'
+              if (value) {
+                color = 'volcano';
+              }
+              return (<Tag color={color} key={key}>{`${key}`}</Tag>);
+            })}
+          </div>
+        );
+      },
+    },
+    {
+      title: "Empieza",
+      dataIndex: "start",
+      key: "start",
+    },
+    {
+      title: "Fin",
+      dataIndex: "end",
+      key: "end",
+    },
+    {
+      title: "Intervalo",
+      dataIndex: "interval",
+      key: "interval",
+    },
+  ];
 
-    return (
-        <Table columns={columns} dataSource={data || []} />
-    )
+  return <Table columns={columns} dataSource={schedule || []} />;
 }
 
-export default TableSchedule
+export default TableSchedule;
