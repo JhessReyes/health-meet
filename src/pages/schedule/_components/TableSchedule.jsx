@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Tag } from "antd";
+import { daysES } from "../../../store/constants";
 function TableSchedule({ schedule }) {
   const columns = [
     {
@@ -20,7 +21,7 @@ function TableSchedule({ schedule }) {
               if (value) {
                 color = 'volcano';
               }
-              return (<Tag color={color} key={key}>{`${key}`}</Tag>);
+              return (<Tag color={color} key={key}>{`${daysES[key]}`}</Tag>);
             })}
           </div>
         );
