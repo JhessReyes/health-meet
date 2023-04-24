@@ -7,9 +7,9 @@ import { faker } from '@faker-js/faker';
 
 function Schedule() {
 
-    let schedules = []
+    let data = []
     for (let i = 0; i < 20; i++) {
-        schedules = [...schedules, {
+        data = [...data, {
             key: faker.datatype.uuid(),
             name: faker.name.jobArea(),
             days: {
@@ -26,50 +26,6 @@ function Schedule() {
             interval: faker.phone.number('##:##')
         }]
     }
-
-    let data = []
-
-    for (let i = 0; i < 50; i++) {
-        data = [...data, {
-            key: faker.datatype.uuid(),
-            name: faker.name.jobArea(),
-            age: faker.random.numeric(),
-            address: faker.address.cityName(),
-            tags: [faker.address.cityName()]
-        }]
-
-    }
-    /*
-    () => {
-                let tag = []
-                for (let j = 0; j < 5; j++) {
-                    tag = [...tag, faker.company()]
-                }
-                return tag;
-            }
-    const data = [
-            {
-                key: '1',
-                name: 'John Brown',
-                age: 32,
-                address: 'New York No. 1 Lake Park',
-                tags: ['nice', 'developer'],
-            },
-            {
-                key: '2',
-                name: 'Jim Green',
-                age: 42,
-                address: 'London No. 1 Lake Park',
-                tags: ['loser'],
-            },
-            {
-                key: '3',
-                name: 'Joe Black',
-                age: 32,
-                address: 'Sydney No. 1 Lake Park',
-                tags: ['cool', 'teacher'],
-            },
-        ]; */
     return (
         <>
             <Module title="Horarios">
