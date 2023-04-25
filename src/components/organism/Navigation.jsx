@@ -20,7 +20,7 @@ const items = [
             </NavLink>
         ),
         icon: <ScheduleOutlined />,
-    },
+    }/* ,
     {
         label: 'Navigation Three - Submenu',
         key: 'SubMenu',
@@ -55,7 +55,7 @@ const items = [
                 ],
             },
         ],
-    },
+    }, */
 ];
 
 function Navigation() {
