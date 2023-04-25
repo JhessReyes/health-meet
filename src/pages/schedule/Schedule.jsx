@@ -1,15 +1,14 @@
-import { Button, Input } from "antd";
 import React from "react";
-import { Module, SchedulModal } from "../../components/organism";
-import { FormSchedule, TableSchedule } from "./_components";
+import { Module } from "../../components/organism";
+import { ScheduleModal, TableSchedule } from "./_components";
 import { faker } from '@faker-js/faker';
 
 
 function Schedule() {
 
-    let data = []
+    let schedule = []
     for (let i = 0; i < 20; i++) {
-        data = [...data, {
+        schedule = [...schedule, {
             key: faker.datatype.uuid(),
             name: faker.name.jobArea(),
             days: {
@@ -30,9 +29,9 @@ function Schedule() {
         <>
             <Module title="Horarios">
                 <div className="flex justify-end p-2">
-                    <SchedulModal />
+                    <ScheduleModal />
                 </div>
-                <TableSchedule data={data}></TableSchedule>
+                <TableSchedule schedule={schedule} />
             </Module>
         </>
     );
