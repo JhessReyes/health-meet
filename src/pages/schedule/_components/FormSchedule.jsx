@@ -1,11 +1,16 @@
 import { Form, Input, Button, Checkbox } from 'antd';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { days, daysES } from '../../../store/constants';
 import { Schedule } from "../../../store/schema";
 
 function FormSchedule(props) {
     const [form] = Form.useForm();
     const [values, setValues] = useState();
+
+    useEffect(() => {
+        if (props?.status === false)
+            form.resetFields();
+    }, [props?.status])
 
     const handleSubmit = (e) => {
         const { name, value } = e.target;
@@ -83,7 +88,7 @@ function FormSchedule(props) {
                     <Button key="back" onClick={handleCancel}>
                         Cancelar
                     </Button>
-                    <Button key="submit" type="primary" htmlType="submit">
+                    <Button key="submit" type="primary" htmlType="submit" loading={props?.status}>
                         {props?.action || 'Crear'}
                     </Button>
                 </div>
