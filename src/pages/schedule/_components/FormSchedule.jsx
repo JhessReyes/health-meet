@@ -29,7 +29,6 @@ function FormSchedule(props) {
                 }
             )
             setDays({ ...props?.dataSchedule?.days })
-            console.log(props?.dataSchedule?.days);
         }
     }, [props?.dataSchedule])
 
@@ -44,6 +43,9 @@ function FormSchedule(props) {
     };
 
     const handleCancel = () => {
+        form.resetFields();
+        setValues();
+        setDays(initialDays);
         props?.cancel(true);
     };
 
@@ -114,7 +116,7 @@ function FormSchedule(props) {
                         Cancelar
                     </Button>
                     <Button key="submit" type="primary" htmlType="submit" loading={props?.status}>
-                        {props?.action || 'Crear'}
+                        {values ? 'Editar Horario' : 'Crear Horario'}
                     </Button>
                 </div>
             </Form.Item>

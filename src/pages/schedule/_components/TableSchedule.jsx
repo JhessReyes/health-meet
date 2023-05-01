@@ -3,7 +3,6 @@ import { Button, Table, Tag } from "antd";
 import { daysES } from "../../../store/constants";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 function TableSchedule(props) {
-  const [visible, setVisible] = useState(false);
   const columns = [
     {
       title: "Nombre",
@@ -19,10 +18,7 @@ function TableSchedule(props) {
         return (
           <div>
             {Object.entries(days).map(function ([key, value]) {
-              let color = days.length > 5 ? 'geekblue' : 'green'
-              if (value) {
-                color = 'volcano';
-              }
+              let color = value === true ? 'green' : 'volcano'
               return (<Tag color={color} key={key}>{`${daysES[key]}`}</Tag>);
             })}
           </div>

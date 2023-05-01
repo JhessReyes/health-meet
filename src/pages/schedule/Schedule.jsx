@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Module } from "../../components/organism";
 import { ScheduleModal, TableSchedule } from "./_components";
 import { faker } from '@faker-js/faker';
 import { Button } from "antd";
 import { ScheduleOutlined } from "@ant-design/icons";
+import { db } from "../../database/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 function Schedule() {
     const [visible, setVisible] = useState(false)
     const [dataSchedule, setDataSchedule] = useState()
-
+    const [schedules, setSchedules] = useState([])
     const showModal = () => {
         setVisible(true);
     };
@@ -24,25 +26,20 @@ function Schedule() {
         /* console.log(value) */
         setVisible(true);
     }
-    let schedule = []
-    for (let i = 0; i < 20; i++) {
-        schedule = [...schedule, {
-            key: faker.datatype.uuid(),
-            name: faker.name.jobArea(),
-            days: {
-                monday: faker.datatype.boolean(),
-                tuesday: faker.datatype.boolean(),
-                wednesday: faker.datatype.boolean(),
-                thursday: faker.datatype.boolean(),
-                friday: faker.datatype.boolean(),
-                saturday: faker.datatype.boolean(),
-                sunday: faker.datatype.boolean(),
-            },
-            start: faker.phone.number('##:##'),
-            end: faker.phone.number('##:##'),
-            interval: faker.phone.number('##:##')
-        }]
+
+    const getSchedules = async () => {
+        const dataSchedules = []
+        const querySnapshot = await getDocs(collection(db, "schedules"));
+        querySnapshot.forEach((doc) => {
+            dataSchedules.push({ ...doc.data(), key: doc.id })
+        });
+        setSchedules(dataSchedules)
     }
+
+    useEffect(() => {
+        getSchedules()
+    }, [])
+
     return (
         <>
             <Module title="Horarios">
@@ -57,7 +54,7 @@ function Schedule() {
                     </Button>
                     <ScheduleModal visible={visible} cancel={handleCancel} addOrEdit={handleAddOrEdit} {...{ dataSchedule }} />
                 </div>
-                <TableSchedule schedule={schedule} selected={handleSelected} />
+                <TableSchedule schedule={schedules} selected={handleSelected} />
             </Module>
         </>
     );
