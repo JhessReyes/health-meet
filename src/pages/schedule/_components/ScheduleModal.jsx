@@ -14,9 +14,9 @@ const SchedulModal = (props) => {
       content: props?.message || 'Se ha creado el horario correctamente',
     });
   };
-  useEffect(() => {
-    setDataSchedule(props?.dataSchedule)
-  }, [props?.dataSchedule])
+  /*   useEffect(() => {
+      setDataSchedule(props?.dataSchedule)
+    }, [props?.dataSchedule]) */
 
 
   /*   const addOrEdit = async (scheduleObject) => {
@@ -42,7 +42,7 @@ const SchedulModal = (props) => {
         footer={[]}
       >
         {contextHolder}
-        <FormSchedule addOrEdit={(schedule) => props?.addOrEdit(schedule)} cancel={(value) => props?.cancel(value)} status={props?.status} {...{ dataSchedule }} />
+        <FormSchedule addOrEdit={(schedule) => props?.addOrEdit(schedule)} cancel={(value) => props?.cancel(value)} status={props?.status} dataSchedule={props?.dataSchedule} />
       </Modal>
     </>
   );

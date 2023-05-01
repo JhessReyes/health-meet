@@ -15,6 +15,7 @@ function Schedule() {
         setVisible(true);
     };
     const handleCancel = (value) => {
+        setDataSchedule('');
         setVisible(!value);
     };
 

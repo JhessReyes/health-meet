@@ -29,6 +29,10 @@ function FormSchedule(props) {
                 }
             )
             setDays({ ...props?.dataSchedule?.days })
+        } else {
+            form.resetFields();
+            setValues();
+            setDays(initialDays);
         }
     }, [props?.dataSchedule])
 
@@ -40,13 +44,6 @@ function FormSchedule(props) {
     const handleSubmit = (e) => {
         const { name, value } = e.target;
         setValues({ ...values, [name]: value });
-    };
-
-    const handleCancel = () => {
-        form.resetFields();
-        setValues();
-        setDays(initialDays);
-        props?.cancel(true);
     };
 
     const onFinish = (values) => {
@@ -112,15 +109,15 @@ function FormSchedule(props) {
             </Form.Item>
             <Form.Item>
                 <div className="flex justify-end gap-4">
-                    <Button key="back" onClick={handleCancel}>
+                    <Button key="back" onClick={() => props?.cancel(true)}>
                         Cancelar
                     </Button>
                     <Button key="submit" type="primary" htmlType="submit" loading={props?.status}>
-                        {values ? 'Editar Horario' : 'Crear Horario'}
+                        {props?.dataSchedule ? 'Editar Horario' : 'Crear Horario'}
                     </Button>
                 </div>
             </Form.Item>
-        </Form>
+        </Form >
     );
 }
 
