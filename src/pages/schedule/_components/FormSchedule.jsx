@@ -1,11 +1,37 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { days, daysES } from '../../../store/constants';
+import { daysES } from '../../../store/constants';
 import { Schedule } from "../../../store/schema";
 
 function FormSchedule(props) {
     const [form] = Form.useForm();
+    const initialDays = {
+        monday: true,
+        tuesday: true,
+        wednesday: true,
+        thursday: true,
+        friday: true,
+        saturday: false,
+        sunday: false,
+    };
     const [values, setValues] = useState();
+    const [days, setDays] = useState(initialDays);
+
+    useEffect(() => {
+        if (props?.dataSchedule) {
+            setValues({ ...props?.dataSchedule })
+            form.setFieldsValue(
+                {
+                    name: props?.dataSchedule?.name,
+                    start: props?.dataSchedule?.start,
+                    end: props?.dataSchedule?.end,
+                    interval: props?.dataSchedule?.interval,
+                }
+            )
+            setDays({ ...props?.dataSchedule?.days })
+            console.log(props?.dataSchedule?.days);
+        }
+    }, [props?.dataSchedule])
 
     useEffect(() => {
         if (props?.status === false)
@@ -36,7 +62,6 @@ function FormSchedule(props) {
     }
 
     return (
-
         <Form layout="vertical" form={form} name="control-hooks" onFinish={onFinish}>
             <Form.Item
                 name={"name"}

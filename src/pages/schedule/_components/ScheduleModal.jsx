@@ -1,60 +1,48 @@
 import { Button, message, Modal } from "antd";
-import { useState } from "react";
-import { ScheduleOutlined } from "@ant-design/icons";
+import { useEffect, useState } from "react";
 import FormSchedule from "./FormSchedule";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../../../database/firebase";
 
-const SchedulModal = () => {
-  const [visible, setVisible] = useState(false);
-  const [status, setStatus] = useState(false);
+const SchedulModal = (props) => {
+  const [dataSchedule, setDataSchedule] = useState();
   const [messageApi, contextHolder] = message.useMessage();
 
   const success = () => {
     messageApi.open({
-      type: 'success',
-      content: 'Se ha creado el horario correctamente',
+      type: props?.type || 'success',
+      content: props?.message || 'Se ha creado el horario correctamente',
     });
   };
+  useEffect(() => {
+    setDataSchedule(props?.dataSchedule)
+  }, [props?.dataSchedule])
 
-  const showModal = () => {
-    setVisible(true);
-  };
-  const handleCancel = (value) => {
-    setVisible(!value);
-  };
-  const addOrEdit = async (scheduleObject) => {
-    try {
-      setStatus(true);
-      const docRef = await addDoc(collection(db, "schedules"), { ...scheduleObject });
-      setStatus(false);
-      success();
-      setVisible(false);
-      console.log(docRef);
-      console.log('Successful')
-    } catch (error) {
-      console.error(error)
-    }
-  };
 
+  /*   const addOrEdit = async (scheduleObject) => {
+      try {
+        setStatus(true);
+        const docRef = await addDoc(collection(db, "schedules"), { ...scheduleObject });
+        setStatus(false);
+        success();
+        setVisible(false);
+        console.log(docRef);
+        console.log('Successful')
+      } catch (error) {
+        console.error(error)
+      }
+    };
+   */
   return (
     <>
-      <Button
-        type="primary"
-        className="flex items-center"
-        onClick={showModal}
-        icon={<ScheduleOutlined />}
-      >
-        Agregar Horario
-      </Button>
       <Modal
-        open={visible}
+        open={props?.visible || false}
         closable={false}
-        name="Crear Horario"
+        name="Formulario de Horario"
         footer={[]}
       >
         {contextHolder}
-        <FormSchedule addOrEdit={addOrEdit} cancel={handleCancel} action='Crear Horario' status={status} />
+        <FormSchedule addOrEdit={(schedule) => props?.addOrEdit(schedule)} cancel={(value) => props?.cancel(value)} status={props?.status} {...{ dataSchedule }} />
       </Modal>
     </>
   );

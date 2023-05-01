@@ -8,12 +8,14 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Schedule from './pages/schedule/Schedule';
 import { createRoutesFromElements } from 'react-router';
 import Home from './pages/Home';
+import Patients from './pages/Patients/Patients';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<AppLayout />}>
       <Route index element={<Home />} />
       <Route path='/schedule' element={<Schedule />} />
+      <Route path='/patients' element={<Patients />} />
     </Route >
   )
 )

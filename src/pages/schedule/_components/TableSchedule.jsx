@@ -1,7 +1,9 @@
-import React from "react";
-import { Table, Tag } from "antd";
+import React, { useState } from "react";
+import { Button, Table, Tag } from "antd";
 import { daysES } from "../../../store/constants";
-function TableSchedule({ schedule }) {
+import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
+function TableSchedule(props) {
+  const [visible, setVisible] = useState(false);
   const columns = [
     {
       title: "Nombre",
@@ -42,8 +44,21 @@ function TableSchedule({ schedule }) {
       dataIndex: "interval",
       key: "interval",
     },
+    {
+      title: "Acciones",
+      dataIndex: "actions",
+      key: "actions",
+      render: (_, schedule) => {
+        return (
+          <div className="flex gap-4">
+            <EditOutlined className="cursor-pointer" onClick={(e) => props?.selected(schedule, true)} />
+            <DeleteOutlined className="cursor-pointer" />
+          </div>
+        );
+      },
+    },
   ];
-  return <Table columns={columns} dataSource={schedule || []} />;
+  return <Table columns={columns} dataSource={props?.schedule || []} />;
 }
 
 export default TableSchedule;
