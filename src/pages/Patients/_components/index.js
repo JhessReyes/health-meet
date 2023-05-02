@@ -1,3 +1,3 @@
-export { default as FormSchedule } from './FormSchedule'
-export { default as TableSchedule } from './TableSchedule'
-export { default as ScheduleModal } from './ScheduleModal'
+export { default as FormHistory } from './FormHistory'
+export { default as TableHistory } from './TableHistory'
+export { default as HistoryModal } from './HistoryModal'
