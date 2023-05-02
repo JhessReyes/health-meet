@@ -4,7 +4,7 @@ import { ScheduleModal, TableSchedule } from "./_components";
 import { Button, message } from "antd";
 import { ScheduleOutlined } from "@ant-design/icons";
 import { db } from "../../database/firebase";
-import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 
 function Schedule() {
     const [visible, setVisible] = useState(false)
@@ -27,6 +27,11 @@ function Schedule() {
         setVisible(!value);
     };
 
+    const handleSelected = (value) => {
+        setDataSchedule(value)
+        setVisible(true);
+    }
+
     const handleAddOrEdit = async (schedule, isCreating) => {
         if (isCreating) {
             try {
@@ -36,7 +41,7 @@ function Schedule() {
                 toast();
                 setVisible(false);
             } catch (error) {
-                console.error(error)
+                toast('error', 'Ocurrio un error');
             }
         } else {
             try {
@@ -47,14 +52,21 @@ function Schedule() {
                 toast('', 'Se ha editado el horario correctamente');
                 setVisible(false);
             } catch (error) {
-
+                toast('error', 'Ocurrio un error');
             }
         }
-
     }
-    const handleSelected = (value, edit) => {
-        setDataSchedule(value)
-        setVisible(true);
+
+    const handleDeleted = async (schedule) => {
+        try {
+            setStatus(true);
+            await deleteDoc(doc(db, "schedules", schedule?.key));
+            setStatus(false);
+            toast('', 'Se ha eliminado el horario correctamente');
+            setVisible(false);
+        } catch (error) {
+            toast('error', 'Ocurrio un error');
+        }
     }
 
     const getSchedules = async () => {
@@ -85,7 +97,7 @@ function Schedule() {
                     </Button>
                     <ScheduleModal visible={visible} cancel={handleCancel} addOrEdit={handleAddOrEdit} {...{ dataSchedule }} status={status} />
                 </div>
-                <TableSchedule schedule={schedules} selected={handleSelected} />
+                <TableSchedule schedule={schedules} selected={handleSelected} deleted={handleDeleted} status={status} />
             </Module>
         </>
     );

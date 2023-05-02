@@ -1,8 +1,12 @@
-import React, { useState } from "react";
-import { Button, Table, Tag } from "antd";
+import React from "react";
+import { Popconfirm, Table, Tag } from "antd";
 import { daysES } from "../../../store/constants";
 import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
 function TableSchedule(props) {
+  const confirm = (schedule) => {
+    props?.deleted(schedule)
+  };
+
   const columns = [
     {
       title: "Nombre",
@@ -47,8 +51,19 @@ function TableSchedule(props) {
       render: (_, schedule) => {
         return (
           <div className="flex gap-4">
-            <EditOutlined className="cursor-pointer" onClick={(e) => props?.selected(schedule, true)} />
-            <DeleteOutlined className="cursor-pointer" />
+            <EditOutlined className="cursor-pointer" onClick={(e) => props?.selected(schedule)} />
+            <Popconfirm
+              title="Eliminar Horario"
+              description="¿Esta seguro, esta acción no se podrá revertir?"
+              onConfirm={(e) => confirm(schedule)}
+              okButtonProps={{
+                loading: props?.status || false,
+              }}
+              okText="Si"
+              cancelText="No"
+            >
+              <DeleteOutlined className="cursor-pointer" />
+            </Popconfirm>
           </div>
         );
       },
