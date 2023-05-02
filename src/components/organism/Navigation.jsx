@@ -1,5 +1,5 @@
 import React from 'react'
-import { HomeOutlined, ScheduleOutlined, SettingOutlined } from '@ant-design/icons';
+import { HomeOutlined, ScheduleOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -24,10 +24,10 @@ const items = [
     {
         label: (
             <NavLink to="/patients">
-                Pacientes
+                Historial Medico de Pacientes
             </NavLink>
         ),
-        icon: <SettingOutlined />,
+        icon: <UsergroupAddOutlined />,
     }
 
     /* ,
