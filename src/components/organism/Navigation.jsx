@@ -20,7 +20,17 @@ const items = [
             </NavLink>
         ),
         icon: <ScheduleOutlined />,
-    }/* ,
+    },
+    {
+        label: (
+            <NavLink to="/patients">
+                Pacientes
+            </NavLink>
+        ),
+        icon: <SettingOutlined />,
+    }
+
+    /* ,
     {
         label: 'Navigation Three - Submenu',
         key: 'SubMenu',

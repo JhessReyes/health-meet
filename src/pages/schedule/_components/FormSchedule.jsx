@@ -1,11 +1,43 @@
 import { Form, Input, Button, Checkbox } from 'antd';
 import React, { useEffect, useState } from 'react'
-import { days, daysES } from '../../../store/constants';
+import { daysES } from '../../../store/constants';
 import { Schedule } from "../../../store/schema";
 
 function FormSchedule(props) {
     const [form] = Form.useForm();
+    const initialDays = {
+        monday: true,
+        tuesday: true,
+        wednesday: true,
+        thursday: true,
+        friday: true,
+        saturday: false,
+        sunday: false,
+    };
     const [values, setValues] = useState();
+    const [days, setDays] = useState(initialDays);
+    const [isCreating, setIsCreating] = useState(true);
+
+    useEffect(() => {
+        if (props?.dataSchedule) {
+            setValues({ ...props?.dataSchedule })
+            form.setFieldsValue(
+                {
+                    name: props?.dataSchedule?.name,
+                    start: props?.dataSchedule?.start,
+                    end: props?.dataSchedule?.end,
+                    interval: props?.dataSchedule?.interval,
+                }
+            )
+            setDays({ ...props?.dataSchedule?.days })
+            setIsCreating(false);
+        } else {
+            form.resetFields();
+            setValues();
+            setDays(initialDays);
+            setIsCreating(true);
+        }
+    }, [props?.dataSchedule])
 
     useEffect(() => {
         if (props?.status === false)
@@ -17,10 +49,6 @@ function FormSchedule(props) {
         setValues({ ...values, [name]: value });
     };
 
-    const handleCancel = () => {
-        props?.cancel(true);
-    };
-
     const onFinish = (values) => {
         let schedule = new Schedule();
         schedule.days = days;
@@ -28,7 +56,7 @@ function FormSchedule(props) {
         schedule.start = values.start;
         schedule.end = values.end;
         schedule.interval = values.interval;
-        props?.addOrEdit(schedule);
+        props?.addOrEdit(schedule, isCreating);
     };
 
     const onChangeChecked = (e, day) => {
@@ -36,7 +64,6 @@ function FormSchedule(props) {
     }
 
     return (
-
         <Form layout="vertical" form={form} name="control-hooks" onFinish={onFinish}>
             <Form.Item
                 name={"name"}
@@ -85,15 +112,15 @@ function FormSchedule(props) {
             </Form.Item>
             <Form.Item>
                 <div className="flex justify-end gap-4">
-                    <Button key="back" onClick={handleCancel}>
+                    <Button key="back" onClick={() => props?.cancel(true)}>
                         Cancelar
                     </Button>
                     <Button key="submit" type="primary" htmlType="submit" loading={props?.status}>
-                        {props?.action || 'Crear'}
+                        {props?.dataSchedule ? 'Editar Horario' : 'Crear Horario'}
                     </Button>
                 </div>
             </Form.Item>
-        </Form>
+        </Form >
     );
 }
 
