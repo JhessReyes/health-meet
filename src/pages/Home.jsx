@@ -2,6 +2,7 @@ import { Avatar, Card, List, Segmented } from 'antd'
 import React, { useState } from 'react'
 import { Module } from '../components/organism'
 import { faker } from "@faker-js/faker";
+import TableHome from './_components/TableHome';
 
 function Home() {
   const [options, setOptions] = useState(['Diaria', 'Semanal', 'Mensual']);
@@ -96,7 +97,7 @@ function Home() {
       },
     ];
   }
-  
+
   let data6 = [];
   for (let i = 0; i < 8; i++) {
     data6 = [
@@ -107,6 +108,21 @@ function Home() {
         avatar: faker.internet.avatar(),
         phone: faker.phone.number("+502 ########"),
         start: faker.date.soon(7, new Date()),
+        interval: faker.datatype.number({ min: 15, max: 60, precision: 15 })
+      },
+    ];
+  }
+
+  let datings = [];
+  for (let i = 0; i < 100; i++) {
+    datings = [
+      ...datings,
+      {
+        key: faker.datatype.uuid(),
+        name: faker.name.firstName() + ' ' + faker.name.lastName(),
+        avatar: faker.internet.avatar(),
+        phone: faker.phone.number("+502 ########"),
+        month: faker.date.month({ abbr: true }),
         interval: faker.datatype.number({ min: 15, max: 60, precision: 15 })
       },
     ];
@@ -374,7 +390,10 @@ function Home() {
         </>
       }
       {current === 'Mensual' &&
-        <h1>Hola Mensual</h1>
+        <>
+          <h1>Citas por Mes</h1>
+          <TableHome datings={datings}></TableHome>
+        </>
       }
 
     </Module>
