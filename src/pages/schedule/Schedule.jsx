@@ -1,42 +1,106 @@
-import { Button, Input } from "antd";
-import React from "react";
-import { Module, SchedulModal } from "../../components/organism";
-import { FormSchedule, TableSchedule } from "./_components";
-import { faker } from "@faker-js/faker";
+import React, { useEffect, useState } from "react";
+import { Module } from "../../components/organism";
+import { ScheduleModal, TableSchedule } from "./_components";
+import { Button, message } from "antd";
+import { ScheduleOutlined } from "@ant-design/icons";
+import { db } from "../../database/firebase";
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from "firebase/firestore";
 
 function Schedule() {
-  let data = [];
-  for (let i = 0; i < 20; i++) {
-    data = [
-      ...data,
-      {
-        key: faker.datatype.uuid(),
-        name: faker.name.jobArea(),
-        days: {
-          monday: faker.datatype.boolean(),
-          tuesday: faker.datatype.boolean(),
-          wednesday: faker.datatype.boolean(),
-          thursday: faker.datatype.boolean(),
-          friday: faker.datatype.boolean(),
-          saturday: faker.datatype.boolean(),
-          sunday: faker.datatype.boolean(),
-        },
-        start: faker.phone.number("##:##"),
-        end: faker.phone.number("##:##"),
-        interval: faker.phone.number("##:##"),
-      },
-    ];
-  }
-  return (
-    <>
-      <Module title="Horarios">
-        <div className="flex justify-end p-2">
-          <SchedulModal />
-        </div>
-        <TableSchedule data={data}></TableSchedule>
-      </Module>
-    </>
-  );
+    const [visible, setVisible] = useState(false)
+    const [dataSchedule, setDataSchedule] = useState()
+    const [schedules, setSchedules] = useState([])
+    const [status, setStatus] = useState([])
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const toast = (type, context) => {
+        messageApi.open({
+            type: type || 'success',
+            content: context || 'Se ha creado el horario correctamente',
+        });
+    };
+    const showModal = () => {
+        setVisible(true);
+    };
+    const handleCancel = (value) => {
+        setDataSchedule('');
+        setVisible(!value);
+    };
+
+    const handleSelected = (value) => {
+        setDataSchedule(value)
+        setVisible(true);
+    }
+
+    const handleAddOrEdit = async (schedule, isCreating) => {
+        if (isCreating) {
+            try {
+                setStatus(true);
+                await addDoc(collection(db, "schedules"), { ...schedule });
+                setStatus(false);
+                toast();
+                setVisible(false);
+            } catch (error) {
+                toast('error', 'Ocurrio un error');
+            }
+        } else {
+            try {
+                setStatus(true);
+                const ref = doc(db, "schedules", dataSchedule?.key);
+                await updateDoc(ref, { ...schedule });
+                setStatus(false);
+                toast('', 'Se ha editado el horario correctamente');
+                setVisible(false);
+            } catch (error) {
+                toast('error', 'Ocurrio un error');
+            }
+        }
+    }
+
+    const handleDeleted = async (schedule) => {
+        try {
+            setStatus(true);
+            await deleteDoc(doc(db, "schedules", schedule?.key));
+            setStatus(false);
+            toast('', 'Se ha eliminado el horario correctamente');
+            setVisible(false);
+        } catch (error) {
+            toast('error', 'Ocurrio un error');
+        }
+    }
+
+    const getSchedules = async () => {
+        const dataSchedules = []
+        const querySnapshot = await getDocs(collection(db, "schedules"));
+        querySnapshot.forEach((doc) => {
+            dataSchedules.push({ ...doc.data(), key: doc.id })
+        });
+        setSchedules(dataSchedules)
+    }
+
+    useEffect(() => {
+        getSchedules()
+    }, [visible])
+
+    return (
+        <>
+            <Module title="Horarios">
+                {contextHolder}
+                <div className="flex justify-end p-2">
+                    <Button
+                        type="primary"
+                        className="flex items-center"
+                        onClick={showModal}
+                        icon={<ScheduleOutlined />}
+                    >
+                        Agregar Horario
+                    </Button>
+                    <ScheduleModal visible={visible} cancel={handleCancel} addOrEdit={handleAddOrEdit} {...{ dataSchedule }} status={status} />
+                </div>
+                <TableSchedule schedule={schedules} selected={handleSelected} deleted={handleDeleted} status={status} />
+            </Module>
+        </>
+    );
 }
 
 export default Schedule;
