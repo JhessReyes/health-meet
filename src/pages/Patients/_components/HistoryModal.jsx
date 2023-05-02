@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import FormSchedule from "./FormSchedule";
+import FormHistory from "./FormHistory";
 
 const SchedulModal = (props) => {
   return (
@@ -10,7 +10,7 @@ const SchedulModal = (props) => {
         name="Formulario de Horario"
         footer={[]}
       >
-        <FormSchedule addOrEdit={(schedule, isCreating) => props?.addOrEdit(schedule, isCreating)} cancel={(value) => props?.cancel(value)} status={props?.status} dataSchedule={props?.dataSchedule} />
+        <FormHistory addOrEdit={(history, isCreating) => props?.addOrEdit(history, isCreating)} cancel={(value) => props?.cancel(value)} status={props?.status} historySelected={props?.historySelected} />
       </Modal>
     </>
   );
