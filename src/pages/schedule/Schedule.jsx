@@ -1,16 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Module } from "../../components/organism";
 import { ScheduleModal, TableSchedule } from "./_components";
-import { faker } from '@faker-js/faker';
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { ScheduleOutlined } from "@ant-design/icons";
 import { db } from "../../database/firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, doc, getDocs, updateDoc } from "firebase/firestore";
 
 function Schedule() {
     const [visible, setVisible] = useState(false)
     const [dataSchedule, setDataSchedule] = useState()
     const [schedules, setSchedules] = useState([])
+    const [status, setStatus] = useState([])
+    const [messageApi, contextHolder] = message.useMessage();
+
+    const toast = (type, context) => {
+        messageApi.open({
+            type: type || 'success',
+            content: context || 'Se ha creado el horario correctamente',
+        });
+    };
     const showModal = () => {
         setVisible(true);
     };
@@ -19,12 +27,33 @@ function Schedule() {
         setVisible(!value);
     };
 
-    const handleAddOrEdit = (schedule) => {
-        /*   console.log(schedule) */
+    const handleAddOrEdit = async (schedule, isCreating) => {
+        if (isCreating) {
+            try {
+                setStatus(true);
+                await addDoc(collection(db, "schedules"), { ...schedule });
+                setStatus(false);
+                toast();
+                setVisible(false);
+            } catch (error) {
+                console.error(error)
+            }
+        } else {
+            try {
+                setStatus(true);
+                const ref = doc(db, "schedules", dataSchedule?.key);
+                await updateDoc(ref, { ...schedule });
+                setStatus(false);
+                toast('', 'Se ha editado el horario correctamente');
+                setVisible(false);
+            } catch (error) {
+
+            }
+        }
+
     }
     const handleSelected = (value, edit) => {
         setDataSchedule(value)
-        /* console.log(value) */
         setVisible(true);
     }
 
@@ -39,11 +68,12 @@ function Schedule() {
 
     useEffect(() => {
         getSchedules()
-    }, [])
+    }, [visible])
 
     return (
         <>
             <Module title="Horarios">
+                {contextHolder}
                 <div className="flex justify-end p-2">
                     <Button
                         type="primary"
@@ -53,7 +83,7 @@ function Schedule() {
                     >
                         Agregar Horario
                     </Button>
-                    <ScheduleModal visible={visible} cancel={handleCancel} addOrEdit={handleAddOrEdit} {...{ dataSchedule }} />
+                    <ScheduleModal visible={visible} cancel={handleCancel} addOrEdit={handleAddOrEdit} {...{ dataSchedule }} status={status} />
                 </div>
                 <TableSchedule schedule={schedules} selected={handleSelected} />
             </Module>

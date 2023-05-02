@@ -16,6 +16,7 @@ function FormSchedule(props) {
     };
     const [values, setValues] = useState();
     const [days, setDays] = useState(initialDays);
+    const [isCreating, setIsCreating] = useState(true);
 
     useEffect(() => {
         if (props?.dataSchedule) {
@@ -29,10 +30,12 @@ function FormSchedule(props) {
                 }
             )
             setDays({ ...props?.dataSchedule?.days })
+            setIsCreating(false);
         } else {
             form.resetFields();
             setValues();
             setDays(initialDays);
+            setIsCreating(true);
         }
     }, [props?.dataSchedule])
 
@@ -53,7 +56,7 @@ function FormSchedule(props) {
         schedule.start = values.start;
         schedule.end = values.end;
         schedule.interval = values.interval;
-        props?.addOrEdit(schedule);
+        props?.addOrEdit(schedule, isCreating);
     };
 
     const onChangeChecked = (e, day) => {
