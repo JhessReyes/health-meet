@@ -1,60 +1,16 @@
-import { Button, message, Modal } from "antd";
-import { useState } from "react";
-import { ScheduleOutlined } from "@ant-design/icons";
+import { Modal } from "antd";
 import FormSchedule from "./FormSchedule";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
-import { db } from "../../../database/firebase";
 
-const SchedulModal = () => {
-  const [visible, setVisible] = useState(false);
-  const [status, setStatus] = useState(false);
-  const [messageApi, contextHolder] = message.useMessage();
-
-  const success = () => {
-    messageApi.open({
-      type: 'success',
-      content: 'Se ha creado el horario correctamente',
-    });
-  };
-
-  const showModal = () => {
-    setVisible(true);
-  };
-  const handleCancel = (value) => {
-    setVisible(!value);
-  };
-  const addOrEdit = async (scheduleObject) => {
-    try {
-      setStatus(true);
-      const docRef = await addDoc(collection(db, "schedules"), { ...scheduleObject });
-      setStatus(false);
-      success();
-      setVisible(false);
-      console.log(docRef);
-      console.log('Successful')
-    } catch (error) {
-      console.error(error)
-    }
-  };
-
+const SchedulModal = (props) => {
   return (
     <>
-      <Button
-        type="primary"
-        className="flex items-center"
-        onClick={showModal}
-        icon={<ScheduleOutlined />}
-      >
-        Agregar Horario
-      </Button>
       <Modal
-        open={visible}
+        open={props?.visible || false}
         closable={false}
-        name="Crear Horario"
+        name="Formulario de Horario"
         footer={[]}
       >
-        {contextHolder}
-        <FormSchedule addOrEdit={addOrEdit} cancel={handleCancel} action='Crear Horario' status={status} />
+        <FormSchedule addOrEdit={(schedule, isCreating) => props?.addOrEdit(schedule, isCreating)} cancel={(value) => props?.cancel(value)} status={props?.status} dataSchedule={props?.dataSchedule} />
       </Modal>
     </>
   );

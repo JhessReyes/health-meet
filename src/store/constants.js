@@ -3,7 +3,7 @@ let days = {
     tuesday: true,
     wednesday: true,
     thursday: true,
-    friday: true,
+    friday: false,
     saturday: false,
     sunday: false,
 }
