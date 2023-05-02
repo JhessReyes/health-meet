@@ -55,7 +55,6 @@ function Patients() {
   }
 
   const handleDeleted = async (history) => {
-    console.log(history);
     try {
       setStatus(true);
       await deleteDoc(doc(db, "medical-history", history?.key));
