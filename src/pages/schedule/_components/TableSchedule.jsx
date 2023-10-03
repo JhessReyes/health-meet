@@ -1,6 +1,7 @@
 import React from "react";
-import { Space, Table, Tag } from "antd";
-function TableSchedule({ data }) {
+import { Table, Tag } from "antd";
+import { daysES } from "../../../store/constants";
+function TableSchedule({ schedule }) {
   const columns = [
     {
       title: "Nombre",
@@ -14,15 +15,15 @@ function TableSchedule({ data }) {
       dataIndex: "days",
       render: (days) => {
         return (
-            <div>
-            {Object.entries(days).map(function([key, value]){
-                let color = days.length > 5 ? 'geekblue' : 'green'
-                if(value){
-                    color = 'volcano';
-                }
-              return (<Tag color={color} key={key}>{`${key}`}</Tag>);
+          <div>
+            {Object.entries(days).map(function ([key, value]) {
+              let color = days.length > 5 ? 'geekblue' : 'green'
+              if (value) {
+                color = 'volcano';
+              }
+              return (<Tag color={color} key={key}>{`${daysES[key]}`}</Tag>);
             })}
-           </div>
+          </div>
         );
       },
     },
@@ -42,8 +43,7 @@ function TableSchedule({ data }) {
       key: "interval",
     },
   ];
-
-  return <Table columns={columns} dataSource={data || []} />;
+  return <Table columns={columns} dataSource={schedule || []} />;
 }
 
 export default TableSchedule;
